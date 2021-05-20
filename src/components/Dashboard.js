@@ -33,10 +33,26 @@ class Dashboard extends Component {
 		focused: null,
 	};
 
+	componentDidMount() {
+		const focused = JSON.parse(localStorage.getItem('focused'));
+    if (focused) {
+      // This is to keep the focused value stay whenever refresh the page
+      this.setState({ focused });
+		}
+	}
+
+  componentDidUpdate(previousProps, previousState) {
+    // This is to update the focused whenever the focused value changes, and save to localStorage
+		if (previousState.focused !== this.state.focused) {
+			localStorage.setItem('focused', JSON.stringify(this.state.focused));
+		}
+	}
+
 	selectPanel(id) {
-    // this.setState({focused: this.state.focused !== null ? null : id})
-    this.setState(prev => ({focused : prev.focused !== null ? null : id}))
-	};
+		// this.setState({focused: this.state.focused !== null ? null : id})
+    this.setState((prev) => ({ focused: prev.focused !== null ? null : id }));
+    console.log(this.state.focused);
+	}
 
 	render() {
 		const dashboardClasses = classnames('dashboard', {
